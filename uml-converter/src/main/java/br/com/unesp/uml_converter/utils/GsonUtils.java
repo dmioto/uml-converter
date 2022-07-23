@@ -4,7 +4,7 @@
  */
 package br.com.unesp.uml_converter.utils;
 
-import br.com.unesp.uml_converter.models.Project;
+import br.com.unesp.uml_converter.models.BaseProject;
 import com.google.gson.Gson;
 
 /**
@@ -24,7 +24,7 @@ public class GsonUtils {
      * 
      * @return String que é o arquivo em JSON
      */
-    public static String objetoToXML(Project objeto) {
+    public static String objetoToXML(BaseProject objeto) {
         Gson gson = new Gson();
 
         return gson.toJson(objeto);

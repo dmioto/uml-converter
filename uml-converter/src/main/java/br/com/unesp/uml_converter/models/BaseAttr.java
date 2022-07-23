@@ -48,7 +48,7 @@ public class BaseAttr {
 
     @Override
     public String toString() {
-        return "BaseAttr{" + "modifier=" + modifier + ", type=" + type + ", name=" + name + ", value=" + value + '}';
+        return modifier + " " + type + " " + name;
     }
     
 }

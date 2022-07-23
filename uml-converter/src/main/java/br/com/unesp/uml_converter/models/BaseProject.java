@@ -6,12 +6,12 @@ package br.com.unesp.uml_converter.models;
 
 import java.util.List;
 
-public class Project {
+public class BaseProject {
 
     private String projectName;
     private List<BaseClass> objects;
 
-    public Project(String projectName, List<BaseClass> objects) {
+    public BaseProject(String projectName, List<BaseClass> objects) {
         this.projectName = projectName;
         this.objects = objects;
     }
