@@ -5,13 +5,14 @@ public class BaseAttr {
     private String modifier;
     private String type;
     private String name;
-    private String value;
 
-    public BaseAttr(String modifier, String type, String name, String value) {
+    public BaseAttr(String modifier, String type, String name) {
         this.modifier = modifier;
         this.type = type;
         this.name = name;
-        this.value = value;
+    }
+
+    public BaseAttr() {
     }
 
     public String getModifier() {
@@ -36,14 +37,6 @@ public class BaseAttr {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     @Override

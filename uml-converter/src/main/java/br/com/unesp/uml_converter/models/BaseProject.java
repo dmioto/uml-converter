@@ -31,7 +31,11 @@ public class BaseProject {
     public void setObjects(List<BaseClass> objects) {
         this.objects = objects;
     }
-
+    
+    public void addObject(BaseClass baseObject) {
+        objects.add(baseObject);
+    }
+    
     @Override
     public String toString() {
         return "Project{" + "projectName=" + projectName + ", objects=" + objects.toString() + '}';

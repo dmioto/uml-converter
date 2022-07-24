@@ -1,15 +1,19 @@
 package br.com.unesp.uml_converter.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BaseClass {
     
     private String objectName;
-    private List<BaseAttr> attributes;
+    private List<BaseAttr> attributes = new ArrayList<>();
 
     public BaseClass(String objectName, List<BaseAttr> attributes) {
         this.objectName = objectName;
         this.attributes = attributes;
+    }
+    
+    public BaseClass() {
     }
 
     public String getObjectName() {
@@ -26,6 +30,10 @@ public class BaseClass {
 
     public void setAttributes(List<BaseAttr> attributes) {
         this.attributes = attributes;
+    }
+    
+    public void addAttribute(BaseAttr attr) {
+        attributes.add(attr);
     }
 
     @Override

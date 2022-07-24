@@ -5,18 +5,20 @@
 
 package br.com.unesp.uml_converter.presentation;
 
+import br.com.unesp.uml_converter.models.BaseAttr;
+import br.com.unesp.uml_converter.models.BaseClass;
 import br.com.unesp.uml_converter.models.BaseProject;
 import br.com.unesp.uml_converter.utils.ArquivoUtils;
 import br.com.unesp.uml_converter.utils.GsonUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 public class UmlConverter extends javax.swing.JFrame {
     
-    String json = ArquivoUtils.leitura("C:\\Users\\danie\\Documents\\faculdade\\unesp\\uml-converter\\uml-converter\\src\\main\\java\\br\\com\\unesp\\uml_converter\\presentation\\mock.json");
+    String json = ArquivoUtils.leitura("/home/lesjoursdenini/Documents/daniel/unesp/uml-converter/uml-converter/src/main/java/br/com/unesp/uml_converter/presentation/mock.json");
     BaseProject project = (BaseProject) GsonUtils.xmlToObjeto(json, BaseProject.class);
 
     /** Creates new form UmlConverter */
@@ -33,17 +35,14 @@ public class UmlConverter extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialogObject = new javax.swing.JDialog();
-        jDialogAttributes = new javax.swing.JDialog();
-        jDialogRelationship = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jLabelProjectTitle = new javax.swing.JLabel();
         jLabelProjectField = new javax.swing.JLabel();
         jLabelObjectsTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListObjects = new javax.swing.JList<>();
-        jButtonAddObjects = new javax.swing.JButton();
         jButtonRemoveObjects = new javax.swing.JButton();
+        jButtonAddObjects = new javax.swing.JButton();
         jLabelAttributesTitle = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jListAttributes = new javax.swing.JList<>();
@@ -63,42 +62,9 @@ public class UmlConverter extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItemExit = new javax.swing.JMenuItem();
 
-        javax.swing.GroupLayout jDialogObjectLayout = new javax.swing.GroupLayout(jDialogObject.getContentPane());
-        jDialogObject.getContentPane().setLayout(jDialogObjectLayout);
-        jDialogObjectLayout.setHorizontalGroup(
-            jDialogObjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jDialogObjectLayout.setVerticalGroup(
-            jDialogObjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jDialogAttributesLayout = new javax.swing.GroupLayout(jDialogAttributes.getContentPane());
-        jDialogAttributes.getContentPane().setLayout(jDialogAttributesLayout);
-        jDialogAttributesLayout.setHorizontalGroup(
-            jDialogAttributesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jDialogAttributesLayout.setVerticalGroup(
-            jDialogAttributesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jDialogRelationshipLayout = new javax.swing.GroupLayout(jDialogRelationship.getContentPane());
-        jDialogRelationship.getContentPane().setLayout(jDialogRelationshipLayout);
-        jDialogRelationshipLayout.setHorizontalGroup(
-            jDialogRelationshipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jDialogRelationshipLayout.setVerticalGroup(
-            jDialogRelationshipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Project"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Project"));
 
         jLabelProjectTitle.setText("Project name:");
 
@@ -108,12 +74,12 @@ public class UmlConverter extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jListObjects);
 
-        jButtonAddObjects.setText("-");
+        jButtonRemoveObjects.setText("-");
 
-        jButtonRemoveObjects.setText("+");
-        jButtonRemoveObjects.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAddObjects.setText("+");
+        jButtonAddObjects.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRemoveObjectsActionPerformed(evt);
+                jButtonAddObjectsActionPerformed(evt);
             }
         });
 
@@ -125,6 +91,11 @@ public class UmlConverter extends javax.swing.JFrame {
         jButtonRemoveAttribute.setText("-");
 
         jButtonAddAttribute.setText("+");
+        jButtonAddAttribute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddAttributeActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText(">");
@@ -146,9 +117,9 @@ public class UmlConverter extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabelObjectsTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jButtonAddObjects)
+                                    .addComponent(jButtonRemoveObjects)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jButtonRemoveObjects))
+                                    .addComponent(jButtonAddObjects))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(35, 35, 35)
                             .addComponent(jLabel6)
@@ -187,11 +158,11 @@ public class UmlConverter extends javax.swing.JFrame {
                             .addComponent(jLabel6)))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButtonRemoveObjects)
+                        .addComponent(jButtonAddObjects)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonRemoveAttribute)
                             .addComponent(jButtonAddAttribute))
-                        .addComponent(jButtonAddObjects))
+                        .addComponent(jButtonRemoveObjects))
                     .addContainerGap(26, Short.MAX_VALUE)))
         );
 
@@ -266,32 +237,21 @@ public class UmlConverter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemImportJsonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemImportJsonActionPerformed
-        // TODO add your handling code here:
-        DefaultListModel listModel = new DefaultListModel();
-        
-        List<String> objectNames = project.getObjects().stream().map(mo -> mo.getObjectName()).collect(Collectors.toList());
-        listModel.addAll(objectNames);
-        
-        jListObjects.setModel(listModel);
-                
-        jListObjects.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                List<String> attributes = project.getObjects().get(jListObjects.getSelectedIndex()).getAttributes().stream().map(mo -> mo.toString()).collect(Collectors.toList());
-                DefaultListModel listModel2 = new DefaultListModel();
-                listModel2.addAll(attributes);
-
-                jListAttributes.setModel(listModel2);
-            }
-        });
-           
-
-        
+        setObjectsList();
     }//GEN-LAST:event_jMenuItemImportJsonActionPerformed
 
-    private void jButtonRemoveObjectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveObjectsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonRemoveObjectsActionPerformed
+    private void jButtonAddObjectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddObjectsActionPerformed
+
+        BaseClass newObject = new BaseClass();
+        
+        newObject.setObjectName(setNameOptionPane("Input object name"));
+        
+        if (!newObject.getObjectName().isEmpty()) {
+            project.addObject(newObject);
+            setObjectsList();
+        }
+
+    }//GEN-LAST:event_jButtonAddObjectsActionPerformed
 
     private void jMenuItemExportJsonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExportJsonActionPerformed
         // TODO add your handling code here:
@@ -299,11 +259,73 @@ public class UmlConverter extends javax.swing.JFrame {
 
     private void jMenuItemNewProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewProjectActionPerformed
         // TODO add your handling code here:
-        jDialogObject.pack();
-        jDialogObject.setLocationRelativeTo(null);
-        jDialogObject.setVisible(true);
+
     }//GEN-LAST:event_jMenuItemNewProjectActionPerformed
 
+    private void jButtonAddAttributeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddAttributeActionPerformed
+        
+        Boolean hasSelectedObject = !jListObjects.isSelectionEmpty();
+        
+        BaseAttr newAttribute = new BaseAttr();
+        
+        String[] modifiers = {"private", "protected", "public"};
+        String[] types = {"String", "int", "Boolean"};
+        
+        if (hasSelectedObject) {
+            newAttribute.setModifier(setOptionPaneAttr("Select the modifier", modifiers));
+            newAttribute.setType(setOptionPaneAttr("Select the type", types));
+            newAttribute.setName(setNameOptionPane("Input variable name"));
+            
+            if (!newAttribute.getModifier().isEmpty() || !newAttribute.getType().isEmpty() || !newAttribute.getName().isEmpty()) {
+                project.getObjects().get(jListObjects.getSelectedIndex()).addAttribute(newAttribute);
+                setAttributesList();
+            }
+        }
+
+    }//GEN-LAST:event_jButtonAddAttributeActionPerformed
+
+    private String setOptionPaneAttr(String title, String options[]) {
+    
+        Object selected = JOptionPane.showInputDialog(null, title, "Selection", JOptionPane.DEFAULT_OPTION, null, options, "0");
+        if ( selected != null ){
+            return selected.toString();
+        }else{
+            System.out.println("User cancelled");
+        }
+        
+        return "";
+    }
+    
+    private String setNameOptionPane(String title) {
+        return JOptionPane.showInputDialog(title);
+    }
+    
+    private void setObjectsList() {
+        DefaultListModel listModel = new DefaultListModel();
+        
+        List<String> objectNames = project.getObjects().stream().map(it -> it.getObjectName()).collect(Collectors.toList());
+        listModel.addAll(objectNames);
+        jListObjects.setModel(listModel);
+        
+        jListObjects.addListSelectionListener((ListSelectionEvent e) -> {
+            setAttributesList();
+        });
+    }
+    
+    private void setAttributesList() {
+        int selectedItem = jListObjects.getSelectedIndex();
+        if (selectedItem != -1) {
+            if (!(project.getObjects().get(selectedItem).getAttributes() == null)) {
+                DefaultListModel listModel2 = new DefaultListModel();        
+                List<String> attributes = project.getObjects().get(jListObjects.getSelectedIndex()).getAttributes().stream().map(it -> it.toString()).collect(Collectors.toList());
+                listModel2.addAll(attributes);
+                jListAttributes.setModel(listModel2);
+            } else {
+                jListAttributes.setModel(new DefaultListModel<>());
+            }
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -335,7 +357,7 @@ public class UmlConverter extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                var frame = new UmlConverter();
+                UmlConverter frame = new UmlConverter();
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
@@ -348,9 +370,6 @@ public class UmlConverter extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAddObjects;
     private javax.swing.JButton jButtonRemoveAttribute;
     private javax.swing.JButton jButtonRemoveObjects;
-    private javax.swing.JDialog jDialogAttributes;
-    private javax.swing.JDialog jDialogObject;
-    private javax.swing.JDialog jDialogRelationship;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelAttributesTitle;
     private javax.swing.JLabel jLabelObjectsTitle;
