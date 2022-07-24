@@ -17,11 +17,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemNewProjectActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSaveAs">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Save as"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="jMenuImport">
@@ -57,6 +52,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="To UML..."/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemExportUmlActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -66,6 +64,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemExitActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -126,9 +127,9 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="97" max="-2" attributes="0"/>
-                  <Component id="jLabelProjectField" min="-2" pref="107" max="-2" attributes="0"/>
-                  <EmptySpace pref="261" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
+                  <Component id="jLabelProjectField" min="-2" pref="103" max="-2" attributes="0"/>
+                  <EmptySpace pref="257" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -168,8 +169,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabelProjectField" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="254" max="32767" attributes="0"/>
+                  <Component id="jLabelProjectField" min="-2" pref="16" max="-2" attributes="0"/>
+                  <EmptySpace pref="251" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -215,9 +216,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelProjectField">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Locadora"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelObjectsTitle">
           <Properties>
@@ -247,6 +245,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="-"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemoveObjectsActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonAddObjects">
           <Properties>
@@ -287,6 +288,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="-"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonRemoveAttributeActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonAddAttribute">
           <Properties>

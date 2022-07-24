@@ -8,18 +8,23 @@ package br.com.unesp.uml_converter.presentation;
 import br.com.unesp.uml_converter.models.BaseAttr;
 import br.com.unesp.uml_converter.models.BaseClass;
 import br.com.unesp.uml_converter.models.BaseProject;
+import br.com.unesp.uml_converter.models.BaseRelationship;
 import br.com.unesp.uml_converter.utils.ArquivoUtils;
 import br.com.unesp.uml_converter.utils.GsonUtils;
+import br.com.unesp.uml_converter.utils.UmlUtils;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 
 public class UmlConverter extends javax.swing.JFrame {
     
-    String json = ArquivoUtils.leitura("/home/lesjoursdenini/Documents/daniel/unesp/uml-converter/uml-converter/src/main/java/br/com/unesp/uml_converter/presentation/mock.json");
-    BaseProject project = (BaseProject) GsonUtils.xmlToObjeto(json, BaseProject.class);
+    BaseProject project;
 
     /** Creates new form UmlConverter */
     public UmlConverter() {
@@ -52,7 +57,6 @@ public class UmlConverter extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItemNewProject = new javax.swing.JMenuItem();
-        jMenuItemSaveAs = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuImport = new javax.swing.JMenu();
         jMenuItemImportJson = new javax.swing.JMenuItem();
@@ -68,13 +72,16 @@ public class UmlConverter extends javax.swing.JFrame {
 
         jLabelProjectTitle.setText("Project name:");
 
-        jLabelProjectField.setText("Locadora");
-
         jLabelObjectsTitle.setText("Objects:");
 
         jScrollPane1.setViewportView(jListObjects);
 
         jButtonRemoveObjects.setText("-");
+        jButtonRemoveObjects.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveObjectsActionPerformed(evt);
+            }
+        });
 
         jButtonAddObjects.setText("+");
         jButtonAddObjects.addActionListener(new java.awt.event.ActionListener() {
@@ -89,6 +96,11 @@ public class UmlConverter extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jListAttributes);
 
         jButtonRemoveAttribute.setText("-");
+        jButtonRemoveAttribute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveAttributeActionPerformed(evt);
+            }
+        });
 
         jButtonAddAttribute.setText("+");
         jButtonAddAttribute.addActionListener(new java.awt.event.ActionListener() {
@@ -105,9 +117,9 @@ public class UmlConverter extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(97, 97, 97)
-                .addComponent(jLabelProjectField, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addGap(105, 105, 105)
+                .addComponent(jLabelProjectField, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(257, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(23, 23, 23)
@@ -137,8 +149,8 @@ public class UmlConverter extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelProjectField)
-                .addContainerGap(254, Short.MAX_VALUE))
+                .addComponent(jLabelProjectField, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(251, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -175,9 +187,6 @@ public class UmlConverter extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItemNewProject);
-
-        jMenuItemSaveAs.setText("Save as");
-        jMenu1.add(jMenuItemSaveAs);
         jMenu1.add(jSeparator1);
 
         jMenuImport.setText("Import");
@@ -204,12 +213,22 @@ public class UmlConverter extends javax.swing.JFrame {
         jMenuExport.add(jMenuItemExportJson);
 
         jMenuItemExportUml.setText("To UML...");
+        jMenuItemExportUml.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemExportUmlActionPerformed(evt);
+            }
+        });
         jMenuExport.add(jMenuItemExportUml);
 
         jMenu1.add(jMenuExport);
         jMenu1.add(jSeparator2);
 
         jMenuItemExit.setText("Exit");
+        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemExitActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemExit);
 
         jMenuBar1.add(jMenu1);
@@ -237,7 +256,35 @@ public class UmlConverter extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemImportJsonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemImportJsonActionPerformed
-        setObjectsList();
+        
+        String mockJson = ArquivoUtils.leitura("/home/lesjoursdenini/Documents/daniel/unesp/uml-converter/uml-converter/src/main/java/br/com/unesp/uml_converter/presentation/mock.json");
+        
+        JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+ 
+        // restrict the user to select files of all types
+        j.setAcceptAllFileFilterUsed(false);
+
+        // set a title for the dialog
+        j.setDialogTitle("Select a .json file");
+
+        // only allow files of .txt extension
+        FileNameExtensionFilter restrict = new FileNameExtensionFilter("Only .json files", "json");
+        j.addChoosableFileFilter(restrict);
+
+        // invoke the showsOpenDialog function to show the save dialog
+        int r = j.showOpenDialog(null);
+
+        // if the user selects a file
+        if (r == JFileChooser.APPROVE_OPTION) {
+            // set the label to the path of the selected file
+            String json = ArquivoUtils.leitura(j.getSelectedFile().getAbsolutePath());
+
+            project = (BaseProject) GsonUtils.xmlToObjeto(json, BaseProject.class);
+            setObjectsList();
+            jLabelProjectField.setText(project.getProjectName());
+            
+        }
+   
     }//GEN-LAST:event_jMenuItemImportJsonActionPerformed
 
     private void jButtonAddObjectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddObjectsActionPerformed
@@ -254,12 +301,27 @@ public class UmlConverter extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAddObjectsActionPerformed
 
     private void jMenuItemExportJsonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExportJsonActionPerformed
-        // TODO add your handling code here:
+        JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+ 
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+ 
+        int r = j.showSaveDialog(null);
+        
+        StringBuilder fileName = new StringBuilder();
+        fileName.append(project.getProjectName());
+        fileName.append(".json");
+
+        if (r == JFileChooser.APPROVE_OPTION) {
+            ArquivoUtils.salvar(j.getSelectedFile().getAbsolutePath() + "/", fileName.toString(), GsonUtils.objetoToXML(project));
+        }
+        
     }//GEN-LAST:event_jMenuItemExportJsonActionPerformed
 
     private void jMenuItemNewProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNewProjectActionPerformed
-        // TODO add your handling code here:
-
+        project = new BaseProject();
+        String projectName = JOptionPane.showInputDialog("Input the project name");
+        project.setProjectName(projectName);
+        jLabelProjectField.setText(project.getProjectName());
     }//GEN-LAST:event_jMenuItemNewProjectActionPerformed
 
     private void jButtonAddAttributeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddAttributeActionPerformed
@@ -269,7 +331,7 @@ public class UmlConverter extends javax.swing.JFrame {
         BaseAttr newAttribute = new BaseAttr();
         
         String[] modifiers = {"private", "protected", "public"};
-        String[] types = {"String", "int", "Boolean"};
+        String[] types = {"String", "byte", "short", "int", "long", "float", "double", "boolean", "char"};
         
         if (hasSelectedObject) {
             newAttribute.setModifier(setOptionPaneAttr("Select the modifier", modifiers));
@@ -284,6 +346,87 @@ public class UmlConverter extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonAddAttributeActionPerformed
 
+    private void jButtonRemoveObjectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveObjectsActionPerformed
+        
+        Boolean hasSelectedObject = !jListObjects.isSelectionEmpty();
+        
+        if (hasSelectedObject) {
+            project.getObjects().remove(jListObjects.getSelectedIndex());
+            setObjectsList();
+            jListObjects.setSelectedIndex(jListObjects.getFirstVisibleIndex());
+        }
+    }//GEN-LAST:event_jButtonRemoveObjectsActionPerformed
+
+    private void jButtonRemoveAttributeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveAttributeActionPerformed
+        
+        Boolean hasSelectedAttribute = !jListAttributes.isSelectionEmpty();
+        
+        if (hasSelectedAttribute) {
+            project.getObjects().get(jListObjects.getSelectedIndex()).getAttributes().remove(jListAttributes.getSelectedIndex());
+            setObjectsList();
+            jListObjects.setSelectedIndex(jListObjects.getFirstVisibleIndex());
+        }
+    }//GEN-LAST:event_jButtonRemoveAttributeActionPerformed
+
+    private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_jMenuItemExitActionPerformed
+
+    private void jMenuItemExportUmlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExportUmlActionPerformed
+        
+        
+        setRelationship();
+        
+        JFileChooser j = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+ 
+        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+ 
+        int r = j.showSaveDialog(null);
+        
+        StringBuilder fileName = new StringBuilder();
+        fileName.append(project.getProjectName());
+        fileName.append(".puml");
+
+        if (r == JFileChooser.APPROVE_OPTION) {
+            ArquivoUtils.salvar(j.getSelectedFile().getAbsolutePath() + "/", fileName.toString(), UmlUtils.projectToUML(project));
+        }
+    }//GEN-LAST:event_jMenuItemExportUmlActionPerformed
+
+    private void setRelationship() {
+        
+        BaseRelationship r;
+        int reply;
+        
+        do {
+            reply = JOptionPane.showConfirmDialog(null, "Add relation and multiplicity?", "relation", JOptionPane.YES_NO_OPTION);
+
+            r = new BaseRelationship();
+            
+            String multiplicity[] = {"1", "1..*", "none"};
+
+
+            List<String> objects = project.getObjects().stream().map(it -> it.getObjectName()).collect(Collectors.toList());
+            String obj1 = setOptionPaneAttr("Select the object 1", (String[]) objects.toArray());
+            String multiplicityObj1 = setOptionPaneAttr("Select the multiplicity obj1:", multiplicity);
+
+            String obj2 = setOptionPaneAttr("Select the object 2", (String[]) objects.toArray());
+            String multiplicityObj2 = setOptionPaneAttr("Select the multiplicity obj2:", multiplicity);
+
+            r.setObject1(obj1);
+            r.setObject2(obj2);
+            r.setMultiplicity1(multiplicityObj1);
+            r.setMultiplicity2(multiplicityObj2);
+
+            String relationship[] = {"inheritance", "composition", "agregation", "none"};
+            String relationObj = setOptionPaneAttr("Select the relationship obj1 -> obj2", relationship);
+
+            r.setRelation(relationObj);
+
+            project.getRelationships().add(r);
+        } while (reply == JOptionPane.YES_OPTION);
+
+    }
+    
     private String setOptionPaneAttr(String title, String options[]) {
     
         Object selected = JOptionPane.showInputDialog(null, title, "Selection", JOptionPane.DEFAULT_OPTION, null, options, "0");
@@ -386,7 +529,6 @@ public class UmlConverter extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemExportUml;
     private javax.swing.JMenuItem jMenuItemImportJson;
     private javax.swing.JMenuItem jMenuItemNewProject;
-    private javax.swing.JMenuItem jMenuItemSaveAs;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
